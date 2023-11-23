@@ -1,42 +1,30 @@
-from pymongo import MongoClient
 import datetime
 
 class StatWriter:
     def __init__(self):
-        self.client = MongoClient("localhost:27017")
-        self.db = self.client.lss_stats
-
-        self.missions_db = self.db.missions
-        self.missing_vehicle_db = self.db.missing_vehicles
-        self.current_credits = self.db.current_credits
-
+        self.file_missing_vehicle = open("stats_missing_vehicle.tsv", "a")
+        self.file_credits = open("stats_credits.tsv", "a")
+    
     def report_mission(self, mission_id, mission_type_id, mission_required_vehicles):
-        # check for duplicates
-        if (self.missions_db.find({'mission_id': mission_id}).count() > 0):
-            return
-
-        report = {
-            "date": datetime.datetime.utcnow(),
-            "mission_id": mission_id,
-            "mission_type_id": mission_type_id,
-            "mission_required_vehicles": mission_required_vehicles,
-        }
-
-        self.missions_db.insert_one(report)
-
+        pass
+    
     def report_missing_vehicle(self, possible_vehicles, mission_id):
-        report = {
-            "date": datetime.datetime.utcnow(),
-            "possible_vehicles": possible_vehicles,
-            "mission_id": mission_id,
-        }
-
-        self.missing_vehicle_db.insert_one(report)
-
+        try:
+            x = possible_vehicles[0][0][1]
+            possible_vehicles = possible_vehicles[0]
+        except:
+            pass
+        
+        try:
+            out = '|'.join(list(possible_vehicles))
+            self.file_missing_vehicle.write('\t'.join([str(datetime.datetime.utcnow()), out, str(mission_id)]) + '\n')
+            self.file_missing_vehicle.flush()
+        except Exception as ex:
+            print("Exception in report_missing_vehicle:", ex)
+    
     def report_current_credits(self, credits):
-        report = {
-            "date": datetime.datetime.utcnow(),
-            "credits": credits,
-        }
-
-        self.current_credits.insert_one(report)
+        try:
+            self.file_credits.write(str(datetime.datetime.utcnow()) + '\t' + str(credits) + '\n')
+            self.file_credits.flush()
+        except Exception as ex:
+            print("Exception in report_missing_vehicle:", ex)

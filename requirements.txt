@@ -1,0 +1,7 @@
+lxml
+cssselect
+cchardet
+yachalk
+tabulate
+bs4
+requests
