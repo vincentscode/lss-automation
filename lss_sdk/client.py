@@ -375,7 +375,8 @@ class Client:
 
     def get_hospital_free_beds(self, hospital_id):
         r = self.session.get(f"https://www.leitstellenspiel.de/buildings/{hospital_id}")
-        res = re.findall(r"Derzeit liegen [0-9]+ Patienten in der Notaufnahme\. Deine Notaufnahme kann maximal [0-9]+ Patienten aufnehmen", r.text)[0]
+        regex = r"Derzeit liegen [0-9]+ Patienten in der Notaufnahme oder werden transportiert\. Deine Notaufnahme kann maximal [0-9]+ Patienten aufnehmen\."
+        res = re.findall(regex, r.text)[0]
         res = ''.join(c for c in res if c in "0123456789 ")
         res = [x for x in res.split(" ") if len(x) > 0]
         return int(res[1]) - int(res[0]) 
