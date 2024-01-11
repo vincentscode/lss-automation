@@ -262,7 +262,7 @@ class Client:
             for alert in alerts:
                 alert = self._soup_string(lxml.html.tostring(alert))
                 # print("a>", alert)
-                txt = alert.get_text(strip=True)
+                txt = alert.get_text(strip=True).replace("\xa0", " ")
                 if "Benötigtes Wasser:" in txt:
                     txt_split = txt.split("Benötigtes Wasser:")
                     if len(txt_split) == 1:
@@ -280,12 +280,12 @@ class Client:
                                     speak_urls.append(speak_url_u)
                             except Exception as ex:
                                 print("Sprechwunsch - Error", ex)
-                    elif ": " in txt:
+                    elif ":" in txt:
                         if "," in txt:
-                            for itm in txt[txt.index(": ")+2:].split(","):
+                            for itm in txt[txt.index(":")+1:].split(","):
                                 vehicles_missing.append(itm.strip())
                         else:
-                            vehicles_missing.append(txt[txt.index(": ")+2:].strip())
+                            vehicles_missing.append(txt[txt.index(":")+1:].strip())
                     else:
                         vehicles_missing.append(txt)
                     
