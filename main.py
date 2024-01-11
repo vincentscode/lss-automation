@@ -84,6 +84,7 @@ v_translation = {
     "Einsatzleitwagen 1": ["ELW 2"],
     "Einsatzleitwagen 2": ["ELW 2"],
 
+    "Schlauchwagen (GW-L2 Wasser oder SW)": ["SW 2000"],
     "SW 2000": ["SW 2000"],
     "GW L 2 Wasser": ["SW 2000"],
     "GW-L2 Wasser, SW 1000, SW 2000 oder Ähnliches": ["SW 2000"],
@@ -92,6 +93,7 @@ v_translation = {
     "SW 1000": [], # split result
     "SW 2000 oder Ähnliches)": [], # split result
     "SW 2000 oder Ähnliches).": [], # split result
+    "GW-L2 Wasser oder SW)": [], # split result
     "Feuerlöschpumpen": ["SW 2000"],
 
     "GW-A": ["GW-A"],
